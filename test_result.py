@@ -5,9 +5,10 @@ import pandas as pd
 import MySQLdb
 import re
 from datetime import datetime
+import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160603/test_result.csv"
+path = "/Users/zhouyang/Downloads/20160613/test_result.csv"
 df = pd.read_csv(path)
 
 rename_dict = {
@@ -83,6 +84,9 @@ del df['sample']
 
 # 将日期字符串转换为datetime数据类型
 def transform_date(x):
+    if len(x)!=14:
+        print 'date is wrong. please check it later!'
+        return np.nan
     year = int(x[:4])
     month = int(x[4:6])
     # 月份出现了0,非法!

@@ -7,7 +7,7 @@ import re
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160603/sop.csv"
+path = "/Users/zhouyang/Downloads/20160613/sop.csv"
 df = pd.read_csv(path)
 # 重命名不符合规范的列
 # 简化列名
@@ -178,5 +178,6 @@ for i in xrange(1, 6):
     wash = "step%d_wash" % i
     df[wash] = df[step].map(lambda x: get_wash_str(x))
     del df[step]
+
 
 pd.io.sql.to_sql(df, 'sop', con, flavor='mysql', if_exists='append', index=False)

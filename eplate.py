@@ -3,10 +3,11 @@
 import pandas as pd
 from datetime import datetime
 import MySQLdb
+import numpy as np
 
 # 删除了列barcode,和列bar_code重复
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160603/eplate.csv"
+path = "/Users/zhouyang/Downloads/20160613/eplate.csv"
 df = pd.read_csv(path)
 # 将create_at这一列转换为字符串类型
 df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else str(int(x)))
@@ -17,6 +18,10 @@ df = df.rename(columns={"eplate_types_id": "eplate_type_id"})
 
 # 将日期字符串转换为datetime数据类型
 def transform_date(x):
+    # 对不规范日期,记为空
+    if len(x) != 14:
+        print 'date is wrong. please check it later!'
+        return np.nan
     year = int(x[:4])
     month = int(x[4:6])
     # 月份出现了0,非法!
@@ -34,5 +39,8 @@ def transform_date(x):
 
 df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['batch_date'] = df['batch_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
+
+# 这个字段在原数据表中不存在,删除
+del df['barcode']
 
 pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
