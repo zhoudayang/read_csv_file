@@ -40,7 +40,8 @@ def transform_date(x):
 df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['batch_date'] = df['batch_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 
-# 这个字段在原数据表中不存在,删除
-del df['barcode']
+if 'barcode' in list(df):
+    # 这个字段在原数据表中不存在,删除
+    del df['barcode']
 
 pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
