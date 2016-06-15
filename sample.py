@@ -42,7 +42,7 @@ def transform_date(x):
     return datetime(year=year, month=month, day=day, hour=hour, minute=min, second=second)
 
 
-# 需要将列purchaser移动到最后一列,然后删除末尾的 列:Unnamed: 19
+# 删除可能多出的列
 
 columns = list(df)
 columns = columns[:19]
@@ -55,6 +55,5 @@ df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else str(i
 df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['arrival_date'] = df['arrival_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
-
 
 pd.io.sql.to_sql(df, 'sample', con, flavor='mysql', if_exists='append', index=False)
