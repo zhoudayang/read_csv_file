@@ -43,11 +43,10 @@ def transform_date(x):
 
 
 # 删除可能多出的列
-
 columns = list(df)
 columns = columns[:19]
-
 df = df.ix[:, columns]
+
 df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else str(int(x)))
 df['arrival_date'] = df['arrival_date'].map(lambda x: x if pd.isnull(x) else str(int(x)))
 df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else str(int(x)))
