@@ -23,7 +23,7 @@ df = df.rename(columns=rename_dict)
 def get_mix_str(sample_str, index):
     result = re.findall("mix\((.*?)\)", sample_str)
     if result is None or len(result) == 0:
-        return ""
+        return np.nan
     result_str = result[index].strip()
     return result_str
 
@@ -32,7 +32,7 @@ def get_pre_treat_str(sample_str):
     # 正则表达式,最小匹配方式
     result = re.findall("pre_treat\((.*?)\)", sample_str)
     if result is None or len(result) == 0:
-        return ""
+        return np.nan
     result_str = result[0].strip()
     return result_str
 
