@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-df = pd.read_csv("/Users/zhouyang/Downloads/20160613/reagent.csv")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160619/reagent.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {

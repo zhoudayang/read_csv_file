@@ -7,7 +7,7 @@ import numpy as np
 
 # 删除了列barcode,和列bar_code重复
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160613/eplate.csv"
+path = "/Users/zhouyang/Downloads/20160619/eplate.csv"
 df = pd.read_csv(path)
 # 将create_at这一列转换为字符串类型
 df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else str(int(x)))

@@ -7,7 +7,7 @@ import re
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160613/sop.csv"
+path = "/Users/zhouyang/Downloads/20160619/sop.csv"
 df = pd.read_csv(path)
 # 重命名不符合规范的列
 # 简化列名
