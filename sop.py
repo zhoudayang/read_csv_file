@@ -7,7 +7,7 @@ import re
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160619/sop.csv"
+path = "/Users/zhouyang/Downloads/20160628/sop.csv"
 df = pd.read_csv(path)
 # 重命名不符合规范的列
 # 简化列名
@@ -142,6 +142,7 @@ for i in xrange(1, 6):
     step = "step_%d" % i
     df['mix_str'] = df[step].map(lambda x: get_mix_str(x))
     df['mix_list_len'] = df['mix_str'].map(lambda x: len(x.split(",")))
+    # 找出第i步中mix中元素的最大数目 在第i步中,mix中的元素个数可能小于mix_len,出现提示over bound 正常
     max_len = df['mix_list_len'].max()
     del df['mix_list_len']
     for j in xrange(max_len):

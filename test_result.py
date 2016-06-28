@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160619/test_result.csv"
+path = "/Users/zhouyang/Downloads/20160628/test_result.csv"
 df = pd.read_csv(path)
 
 rename_dict = {
@@ -82,27 +82,13 @@ for i in xrange(1, mix_len + 1):
 del df['sample']
 
 
-# 将日期字符串转换为datetime数据类型
-def transform_date(x):
-    if len(x) != 14:
-        print 'date is wrong. please check it later!'
+def transform_date(date_str):
+    if re.match("\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}", date_str) is None:
+        print 'date string is not right please check it later!'
         return np.nan
-    year = int(x[:4])
-    month = int(x[4:6])
-    # 月份出现了0,非法!
-    if month <= 0:
-        month = 1
-    day = int(x[6:8])
-    # 日期出现了0,非法!
-    if day <= 0:
-        day = 1
-    hour = int(x[8:10])
-    min = int(x[10:12])
-    second = int(x[12:])
-    return datetime(year=year, month=month, day=day, hour=hour, minute=min, second=second)
+    return datetime.strptime(date_str, "%Y-%m-%d-%H-%M-%S")
 
 
-df['date'] = df['date'].map(lambda x: x if pd.isnull(x) else str(int(x)))
 df['date'] = df['date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 
 pd.io.sql.to_sql(df, 'test_result', con, flavor='mysql', if_exists='append', index=False)

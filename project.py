@@ -5,8 +5,11 @@ from datetime import datetime
 import MySQLdb
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-df = pd.read_csv("/Users/zhouyang/Downloads/20160603/project.csv")
-df = df.rename(columns={"created_at": "create_at"})
+# 因为含有中文,需要制定编码格式
+df = pd.read_csv("/Users/zhouyang/Downloads/20160628/project.csv",encoding="gbk")
+
+columns = ["_id","catalogA","catalogB","catalogC","attributes","description","create_at","Mongodb_ID"]
+df.columns = columns
 
 
 # 将日期字符串转换为datetime数据类型
