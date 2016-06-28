@@ -5,7 +5,7 @@ from datetime import datetime
 import MySQLdb
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-# 因为含有中文,需要制定编码格式
+# 因为含有中文,需要指定编码格式
 df = pd.read_csv("/Users/zhouyang/Downloads/20160628/project.csv",encoding="gbk")
 
 columns = ["_id","catalogA","catalogB","catalogC","attributes","description","create_at","Mongodb_ID"]
