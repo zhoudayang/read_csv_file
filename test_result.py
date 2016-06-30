@@ -8,7 +8,7 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160628/test_result.csv"
+path = "/Users/zhouyang/Downloads/test_result.csv"
 df = pd.read_csv(path)
 
 rename_dict = {
