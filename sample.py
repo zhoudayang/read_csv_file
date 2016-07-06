@@ -7,7 +7,15 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-df = pd.read_csv("/Users/zhouyang/Downloads/20160628/sample.csv")
+
+# 删除原来表的内容
+delete_sql = "delete from sample"
+cur = con.cursor()
+cur.execute(delete_sql)
+con.commit()
+cur.close()
+
+df = pd.read_csv("/Users/zhouyang/Downloads/20160706/sample.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {

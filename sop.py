@@ -7,7 +7,15 @@ import re
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160628/sop.csv"
+
+# 删除原来表的内容
+delete_sql = "delete from sop"
+cur = con.cursor()
+cur.execute(delete_sql)
+con.commit()
+cur.close()
+
+path = "/Users/zhouyang/Downloads/20160706/sop.csv"
 df = pd.read_csv(path)
 # 重命名不符合规范的列
 # 简化列名

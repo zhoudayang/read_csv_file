@@ -6,7 +6,15 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-df = pd.read_csv("/Users/zhouyang/Downloads/20160628/reagent.csv")
+
+# 删除原来表的内容
+delete_sql = "delete from reagent"
+cur = con.cursor()
+cur.execute(delete_sql)
+con.commit()
+cur.close()
+
+df = pd.read_csv("/Users/zhouyang/Downloads/20160706/reagent.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {
@@ -25,6 +33,7 @@ def transform_date(x):
     # 对不规范日期,记为空
     if len(x) != 14:
         print 'date is wrong. please check it later!'
+        print 'the wrong date is ', x
         return np.nan
     year = int(x[:4])
     month = int(x[4:6])
@@ -44,6 +53,5 @@ def transform_date(x):
 df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['arrival_date'] = df['arrival_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
-
 
 pd.io.sql.to_sql(df, 'reagent', con, flavor='mysql', if_exists='append', index=False)

@@ -8,7 +8,15 @@ import re
 
 # 删除了列barcode,和列bar_code重复
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/20160628/eplate.csv"
+
+# 删除原来表的内容
+delete_sql = "delete from eplates"
+cur = con.cursor()
+cur.execute(delete_sql)
+con.commit()
+cur.close()
+
+path = "/Users/zhouyang/Downloads/20160706/eplate.csv"
 df = pd.read_csv(path)
 # 更换列的名称
 df = df.rename(columns={"eplate_types_id": "eplate_type_id"})

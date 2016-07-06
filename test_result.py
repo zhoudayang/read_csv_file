@@ -8,7 +8,15 @@ from datetime import datetime
 import numpy as np
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
-path = "/Users/zhouyang/Downloads/test_result.csv"
+
+# 删除原来表的内容
+delete_sql = "delete from test_result"
+cur = con.cursor()
+cur.execute(delete_sql)
+con.commit()
+cur.close()
+
+path = "/Users/zhouyang/Downloads/20160706/test_result.csv"
 df = pd.read_csv(path)
 
 rename_dict = {
