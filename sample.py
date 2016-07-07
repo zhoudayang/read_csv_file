@@ -5,15 +5,13 @@ import MySQLdb
 import pandas as pd
 from datetime import datetime
 import numpy as np
+from util import rebuild_table,delete_table
+
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
-delete_sql = "delete from sample"
-cur = con.cursor()
-cur.execute(delete_sql)
-con.commit()
-cur.close()
+delete_table("sample",con)
 
 df = pd.read_csv("/Users/zhouyang/Downloads/20160706/sample.csv")
 
@@ -63,4 +61,12 @@ df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else t
 df['arrival_date'] = df['arrival_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 
-pd.io.sql.to_sql(df, 'sample', con, flavor='mysql', if_exists='append', index=False)
+try:
+    pd.io.sql.to_sql(df, 'sample', con, flavor='mysql', if_exists='append', index=False)
+except:
+    print 'there is an error, please fix it before continue!'
+    exit(-1)
+    # transfer data to remote mysql server
+yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+                            db="ezlife")
+rebuild_table(table_name="sample", con=yihuo_con, df=df)

@@ -5,15 +5,12 @@ import pandas as pd
 import MySQLdb
 import re
 import numpy as np
+from util import rebuild_table,delete_table
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
-delete_sql = "delete from sop"
-cur = con.cursor()
-cur.execute(delete_sql)
-con.commit()
-cur.close()
+delete_table("sop",con)
 
 path = "/Users/zhouyang/Downloads/20160706/sop.csv"
 df = pd.read_csv(path)
@@ -188,5 +185,12 @@ for i in xrange(1, 6):
     df[wash] = df[step].map(lambda x: get_wash_str(x))
     del df[step]
 
-
-pd.io.sql.to_sql(df, 'sop', con, flavor='mysql', if_exists='append', index=False)
+try:
+    pd.io.sql.to_sql(df, 'sop', con, flavor='mysql', if_exists='append', index=False)
+except:
+    print 'there is an error, please fix it before continue!'
+    exit(-1)
+    # transfer data to remote mysql server
+yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+                            db="ezlife")
+rebuild_table(table_name="sop", con=yihuo_con, df=df)

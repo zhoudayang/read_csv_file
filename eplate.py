@@ -5,16 +5,13 @@ from datetime import datetime
 import MySQLdb
 import numpy as np
 import re
+from util import rebuild_table, delete_table
 
 # 删除了列barcode,和列bar_code重复
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
-delete_sql = "delete from eplates"
-cur = con.cursor()
-cur.execute(delete_sql)
-con.commit()
-cur.close()
+delete_table("eplates", con)
 
 path = "/Users/zhouyang/Downloads/20160706/eplate.csv"
 df = pd.read_csv(path)
@@ -35,5 +32,12 @@ df['batch_date'] = df['batch_date'].map(lambda x: x if pd.isnull(x) else transfo
 if 'barcode' in list(df):
     # 这个字段在原数据表中不存在,删除
     del df['barcode']
-
-pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
+try:
+    pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
+except:
+    print 'there is an error, please fix it before continue!'
+    exit(-1)
+# transfer data to remote mysql server
+yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+                            db="ezlife")
+rebuild_table(table_name="eplates", con=yihuo_con, df=df)
