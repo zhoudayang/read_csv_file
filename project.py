@@ -40,9 +40,11 @@ df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else transform
 # pandas插入可以省略一些空的列
 try:
     pd.io.sql.to_sql(df, 'project', con, flavor='mysql', if_exists='append', index=False)
-except:
+except Exception,e:
+    print e
     print 'there is an error, please fix it before continue!'
     exit(-1)
+    
 # transfer data to remote mysql server
 yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
                             db="ezlife")
