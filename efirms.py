@@ -12,7 +12,8 @@ delete_table("efirms", con)
 df = pd.read_csv("/Users/zhouyang/Desktop/efirms.csv")
 try:
     pd.io.sql.to_sql(df, 'efirms', con, flavor='mysql', if_exists='append', index=False)
-except:
+except Exception,e:
+    print e
     print 'there is an error, please fix it before continue!'
     exit(-1)
 
