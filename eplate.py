@@ -34,7 +34,8 @@ if 'barcode' in list(df):
     del df['barcode']
 try:
     pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
-except:
+except Exception,e:
+    print e
     print 'there is an error, please fix it before continue!'
     exit(-1)
 # transfer data to remote mysql server
