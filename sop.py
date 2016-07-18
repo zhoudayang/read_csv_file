@@ -12,7 +12,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # 删除原来表的内容
 delete_table("sop",con)
 
-path = "/Users/zhouyang/Downloads/20160706/sop.csv"
+path = "/Users/zhouyang/Downloads/20160718/sop.csv"
 df = pd.read_csv(path)
 # 重命名不符合规范的列
 # 简化列名
