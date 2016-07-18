@@ -13,7 +13,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # 删除原来表的内容
 delete_table("eplates", con)
 
-path = "/Users/zhouyang/Downloads/20160706/eplate.csv"
+path = "/Users/zhouyang/Downloads/20160718/eplate.csv"
 df = pd.read_csv(path)
 # 更换列的名称
 df = df.rename(columns={"eplate_types_id": "eplate_type_id"})
