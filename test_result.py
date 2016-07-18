@@ -107,6 +107,6 @@ except Exception,e:
 
 # 表结构有变,这里需要使用navicat手动上传
 # transfer data to remote mysql server
-# yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
-#                             db="ezlife")
-# rebuild_table(table_name="test_result", con=yihuo_con, df=df)
+yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+                            db="ezlife")
+rebuild_table(table_name="test_result", con=yihuo_con, df=df)
