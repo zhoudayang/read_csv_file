@@ -22,13 +22,13 @@ rename_dict = {
 }
 df = df.rename(columns=rename_dict)
 
+
 # 将日期字符串转换为datetime数据类型
 def transform_date(date_str):
     if re.match("\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}", date_str) is None:
         print 'date string is not right please check it later!'
         return np.nan
     return datetime.strptime(date_str, "%Y-%m-%d-%H-%M-%S")
-
 
 
 df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
