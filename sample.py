@@ -14,7 +14,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # 删除原来表的内容
 delete_table("sample",con)
 
-df = pd.read_csv("/Users/zhouyang/Downloads/20160718/sample.csv")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160816/sample.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {
@@ -52,8 +52,6 @@ except Exception,e:
     print e
     print 'there is an error, please fix it before continue!'
     exit(-1)
-
-# 因为表结构有变化,这里需要使用navicat进行同步
 
 # transfer data to remote mysql server
 yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
