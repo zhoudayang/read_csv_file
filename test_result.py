@@ -14,7 +14,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # 删除原来表的内容
 delete_table("test_result",con)
 
-path = "/Users/zhouyang/Downloads/20160816/test_result.csv"
+path = "/Users/zhouyang/Downloads/20160906/test_result.csv"
 df = pd.read_csv(path)
 
 rename_dict = {

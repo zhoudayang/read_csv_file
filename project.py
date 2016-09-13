@@ -11,7 +11,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 delete_table('project', con)
 
 # 因为含有中文,需要指定编码格式
-df = pd.read_csv("/Users/zhouyang/Downloads/20160816/project.csv", encoding="gbk")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160906/project.csv", encoding="gbk")
 
 columns = ["_id", "catalogA", "catalogB", "catalogC", "attributes", "description", "create_at", "Mongodb_ID"]
 df.columns = columns
