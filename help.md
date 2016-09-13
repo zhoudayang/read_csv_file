@@ -37,4 +37,4 @@
 #### 5.执行导入操作
 1. 在执行导入操作之前，请检查csv文件中列名和列的数量是否有误。因为记录数据时采用utf8编码，所以csv文件中不能有不符合规范的字符，例如中文符号（）、等。
 2. 修改导入程序代码中的csv文件路径为你想要导入的csv文件路径。例如你想导入表**test\_result**,该文件路径为```/home/user/test_result.csv```,那么需要将test\_result中的path定义改为：```path="/home/user/test_result.csv```。如果是windows操作系统，csv文件路径假定为C:\data\test_result.csv,那么需要将test\_result中的path定义修改为：```path="C:\\data\\test_result.csv"```.
-3. 执行python代码，将csv文件内容导入数据库。例如我们想导入表test\_result,并且已经参照2修改了test\_result.py文件,那么可以直接在命令行源代码文件路径下执行 ```python test_result.py```即可。如果程序没有报错:```there is an error, please fix it before continue!'``` ,则说明导入成功。否则请参照错误提示修改csv文件中的错误。目前已知的错误包括csv文件中出现了不符合数据库要求的中文符号，csv文件的列数或者列名不对，现有的csv文件内容不符合数据库表约束条件等。请参照错误提示修改csv文件，再次进行导入操作。**其他数据表的导入操作完全一致，参照本文中test_result表的导入操作即可。**
+3. 执行python代码，将csv文件内容导入数据库。例如我们想导入表test\_result,并且已经参照2修改了test\_result.py文件,那么可以直接在命令行源代码文件路径下执行 ```python test_result.py```即可。如果程序没有报错:```there is an error, please fix it before continue!'``` ,则说明导入成功。否则请参照错误提示修改csv文件中的错误。目前已知的错误包括csv文件中出现了不符合数据库要求的中文符号，csv文件的列数或者列名不对，现有的csv文件内容不符合数据库表约束条件等。请按按照错误提示修改csv文件，再次进行导入操作。**其他数据表的导入操作完全一致，参照本文中test_result表的导入操作即可。**
