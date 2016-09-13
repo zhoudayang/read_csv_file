@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*- 
 # author：zhouyang
 
-import MySQLdb
+import pymysql
 import pandas as pd
 from datetime import datetime
 import numpy as np
@@ -9,7 +9,7 @@ from util import rebuild_table,delete_table
 import re
 
 
-con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
+con = pymysql.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
 delete_table("sample",con)
@@ -54,6 +54,6 @@ except Exception,e:
     exit(-1)
 
 # transfer data to remote mysql server
-yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+yihuo_con = pymysql.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
                             db="ezlife")
 rebuild_table(table_name="sample", con=yihuo_con, df=df)

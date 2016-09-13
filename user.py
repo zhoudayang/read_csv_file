@@ -2,11 +2,11 @@
 # author：zhouyang
 
 import pandas as pd
-import MySQLdb
+import pymysql
 from util import rebuild_table, delete_table
 import numpy as np
 
-con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
+con = pymysql.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 path = '/Users/zhouyang/Downloads/20160718/user.csv'
 
