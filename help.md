@@ -32,9 +32,8 @@
 为了连接本地mysql数据库，可能需要修改 **3.文件结构** 中提及的几个导入表的代码文件。下面以test_result.py文件为例：
 
 假设mysql IP地址为 192.168.1.1 用户名为 root ，密码为 admin， 端口号为 3306，那么con的定义应该修改为:
-```con = MySQLdb.connect(host="192.168.1.1", port=3306, user="root", password="admin",db="ezlife", charset="utf8")
-```
-其他几个导入表数据的代码文件也要做出上述更改。
+```con = MySQLdb.connect(host="192.168.1.1", port=3306, user="root", password="admin",db="ezlife", charset="utf8")``` **其他几个导入表数据的代码文件也要做出上述更改。**
+
 #### 5.执行导入操作
 1. 在执行导入操作之前，请检查csv文件中列名和列的数量是否有误。因为记录数据时采用utf8编码，所以csv文件中不能有不符合规范的字符，例如中文符号（）、等。
 2. 修改导入程序代码中的csv文件路径为你想要导入的csv文件路径。例如你想导入表**test\_result**,该文件路径为```/home/user/test_result.csv```,那么需要将test\_result中的path定义改为：```path="/home/user/test_result.csv```。如果是windows操作系统，csv文件路径假定为C:\data\test_result.csv,那么需要将test\_result中的path定义修改为：```path="C:\\data\\test_result.csv"```.
