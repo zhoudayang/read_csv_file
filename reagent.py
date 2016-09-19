@@ -6,13 +6,14 @@ from datetime import datetime
 import numpy as np
 from util import delete_table, rebuild_table
 import re
+import chardet
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
 delete_table("reagent", con)
 
-df = pd.read_csv("/Users/zhouyang/Downloads/20160906/reagent.csv")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160918/reagent.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {
@@ -22,6 +23,20 @@ rename_dict = {
 }
 df = df.rename(columns=rename_dict)
 
+
+
+def change_encode(df,column):
+    for i in df.index:
+        value = df[column][i]
+        if pd.isnull(value):
+            continue
+        encode = chardet.detect(value)["encoding"]
+        if encode != "ascii":
+            df[column][i] = value.decode(encode)
+    return df
+
+df = change_encode(df,"supplier")
+df = change_encode(df,"attributes")
 
 # 将日期字符串转换为datetime数据类型
 def transform_date(date_str):
@@ -34,6 +49,7 @@ def transform_date(date_str):
 df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['arrival_date'] = df['arrival_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 df['create_date'] = df['create_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
+
 try:
     pd.io.sql.to_sql(df, 'reagent', con, flavor='mysql', if_exists='append', index=False)
 except Exception, e:

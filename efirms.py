@@ -9,7 +9,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # delete before insert
 delete_table("efirms", con)
 
-df = pd.read_csv("/Users/zhouyang/Downloads/20160906/efirms.csv")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160918/machine.csv")
 try:
     pd.io.sql.to_sql(df, 'efirms', con, flavor='mysql', if_exists='append', index=False)
 except Exception,e:
@@ -18,6 +18,6 @@ except Exception,e:
     exit(-1)
 
 # transfer data to remote mysql server
-# yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
-#                             db="ezlife")
-# rebuild_table(table_name="efirms", con=yihuo_con, df=df)
+yihuo_con = MySQLdb.connect(host="52.192.115.115", user="root", passwd="yihuo_root", port=3306, charset="utf8",
+                            db="ezlife")
+rebuild_table(table_name="efirms", con=yihuo_con, df=df)

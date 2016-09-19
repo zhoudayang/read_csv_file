@@ -7,6 +7,7 @@ from datetime import datetime
 import numpy as np
 from util import rebuild_table,delete_table
 import re
+import chardet
 
 
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
@@ -14,7 +15,7 @@ con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", cha
 # 删除原来表的内容
 delete_table("sample",con)
 
-df = pd.read_csv("/Users/zhouyang/Downloads/20160906/sample.csv")
+df = pd.read_csv("/Users/zhouyang/Downloads/20160918/sample.csv")
 
 # 需要更换列名的列,及更换之后的列名对应关系
 rename_dict = {
@@ -28,6 +29,18 @@ rename_dict = {
 }
 df = df.rename(columns=rename_dict)
 
+
+def change_encode(df,column):
+    for i in df.index:
+        value = df[column][i]
+        if pd.isnull(value):
+            continue
+        encode = chardet.detect(value)["encoding"]
+        if encode != "ascii":
+            df[column][i] = value.decode(encode)
+    return df
+
+df = change_encode(df,"name")
 
 # 删除可能多出的列
 # columns = list(df)

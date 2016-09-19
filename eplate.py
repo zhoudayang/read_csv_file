@@ -6,14 +6,16 @@ import MySQLdb
 import numpy as np
 import re
 from util import rebuild_table, delete_table
+import chardet
 
+# fixme: 表结构有变动,在和服务器同步之前,请先同步表结构
 # 删除了列barcode,和列bar_code重复
 con = MySQLdb.connect(host="127.0.0.1", port=3306, user="root", db="ezlife", charset="utf8")
 
 # 删除原来表的内容
 delete_table("eplates", con)
 
-path = "/Users/zhouyang/Downloads/20160906/eplate.csv"
+path = "/Users/zhouyang/Downloads/20160918/eplate.csv"
 df = pd.read_csv(path)
 # 更换列的名称
 df = df.rename(columns={"eplate_types_id": "eplate_type_id"})
@@ -27,11 +29,13 @@ def transform_date(date_str):
 
 
 df['create_at'] = df['create_at'].map(lambda x: x if pd.isnull(x) else transform_date(x))
-df['batch_date'] = df['batch_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
+df['purchase_date'] = df['purchase_date'].map(lambda x: x if pd.isnull(x) else transform_date(x))
 
-if 'barcode' in list(df):
-    # 这个字段在原数据表中不存在,删除
-    del df['barcode']
+assert(len(df)>0)
+
+encoding = chardet.detect(df["eplate_description"][0])["encoding"]
+df["eplate_description"] = df["eplate_description"].map(lambda x:x.decode(encoding))
+
 try:
     pd.io.sql.to_sql(df, 'eplates', con, flavor='mysql', if_exists='append', index=False)
 except Exception,e:
